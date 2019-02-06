@@ -1,0 +1,121 @@
+{% extends "layout.html"%}    
+    
+{% block content %}
+
+    <section id="contas">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0">Calcular <span id="currentMonth"></span></h2>
+            <hr class="star-dark mb-5">
+            <div class="row">
+            <div class="col-lg-8 mx-auto">
+                
+                <form name="sentMessage" id="payment" method="POST" action="{{ url_for('contas') }}">
+                <div class="form-group">
+                    <label for="pagadores">Pagador Mês</label>
+                    <div class="dropdown">
+                        <button id="pagadores" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for resident in residents %}
+                                <a class="dropdown-item" href="#">{{resident}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="aluguel">Aluguel</label>
+                    <input class="form-control j" id="aluguel" type="text" required="required" data-validation-required-message="Digite o valor do campo Aluguel" placeholder="Aluguel">
+                </div>
+                <div class="form-group">
+                    <label for="telefone"> Telefone</label>
+                    <input class="form-control j" id="telefone" type="text" required="required" data-validation-required-message="Digite o valor do campo Telefone." placeholder="Telefone">
+                </div>
+                <div class="form-group">
+                    <label for="luz">Luz</label>
+                    <input class="form-control j" id="luz" type="text" required="required" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
+                </div>
+                <div class="form-group">
+                    <label for="total">Total</label>
+                    <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
+                </div>
+                <div class="form-group">
+                    <label for="totalCada">Total por Pessoa</label>
+                    <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
+                </div>
+                <div class="control-group">
+                    <label>Mensagem</label>
+                    <h1 id="currentMonth"></h1>
+                </div>
+                
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Enviar</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+
+    
+    <script type="text/javascript">
+        function id(el) {
+          return document.getElementById( el );
+        }
+        function total( aluguel, telefone, luz ) {
+            if(aluguel && telefone && luz){
+                return converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(telefone) + converteMoedaParaFloat(luz);
+            }
+        } 
+
+        function converteMoedaParaFloat(atributo){
+           return parseFloat(atributo.replace('R$', '').replace('.', '').replace(',', '.'))
+        }
+        function atualizaTotais(result){
+            var payers = JSON.parse('{{residents | tojson}}');
+            
+            id('total').value = result;
+            id('totalCada').value = result / payers.length;
+        }
+
+        window.onload = function() {
+          id('aluguel').addEventListener('keyup', function() {
+            var result = total( this.value , id('telefone').value, id('luz').value);
+            atualizaTotais(result)
+          });
+        
+          id('telefone').addEventListener('keyup', function(){
+            var result = total( id('aluguel').value , this.value, id('luz').value);
+            atualizaTotais(result)
+          });
+          id('luz').addEventListener('keyup', function(){
+            var result = total( id('aluguel').value , id('telefone').value, this.value );
+            atualizaTotais(result)
+          });
+        }
+        
+        
+    </script>
+
+    <script>
+        $(".j").inputmask({
+            alias:'currency',
+            radixPoint:",",
+            prefix: 'R$ ',
+            groupSeparator: ".",
+            autoGroup: true,
+            digits: 2,
+            rightAlign: false,
+            unmaskAsNumber: true,
+            onBeforeMask: function (value, opts) {
+                return value;
+            }
+         });
+
+    </script>
+
+{% endblock %}
+      

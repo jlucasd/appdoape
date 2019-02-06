@@ -1,0 +1,30 @@
+{% extends "layout.html"%}    
+    
+{% block content %}
+    <!-- Pagamentos Section -->
+    <section id="pagamentos">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0"><span id="yearPayment"></span></h2>
+            <hr class="star-dark mb-5">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Nº</th>
+                    <th scope="col">Mês</th>
+                    <th scope="col">Pagador</th>
+                  </tr>
+                </thead>
+                <tbody>  
+                  {% for key, value in payers.items() %}
+                    <tr>
+                        <th scope="row">{{loop.index0 + 1}}</th>
+                        <td>{{ key }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </section>
+
+{% endblock %}
