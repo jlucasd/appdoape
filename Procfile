@@ -1,1 +1,1 @@
-web: gunicorn appdoape.wsgi --log-file -
+web: gunicorn app:appdoape
