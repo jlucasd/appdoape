@@ -3,56 +3,76 @@
 {% block content %}
 
     <section id="contas">
-        <div class="container">
+        <div class="container-fluid">
             <h2 class="text-center text-uppercase text-secondary mb-0">Calcular <span id="currentMonth"></span></h2>
             <hr class="star-dark mb-5">
-            <div class="row">
-            <div class="col-lg-8 mx-auto">
-                
+            <div class="col-lg-10 mx-auto">
                 <form name="sentMessage" id="payment" method="POST" action="{{ url_for('contas') }}">
-                <div class="form-group">
-                    <label for="pagadores">Pagador Mês</label>
-                    <div class="dropdown">
-                        <button id="pagadores" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        </button>
-                        <div class="dropdown-menu">
-                            {% for resident in residents %}
-                                <a class="dropdown-item" href="#">{{resident}}</a>
-                            {% endfor %}
+                    <div class="form-group col-md-6">
+                        <h4>Pagador Mês : {{currentPayer}}</h4>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6"> 
+                            <label for="aluguel">Aluguel</label>
+                            <input class="form-control j" id="aluguel" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Aluguel" placeholder="Aluguel">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="costJoao">Gastos João</label>
+                            <input class="form-control j" type="text" name="costJoao" id="costJoao" onblur="valorCada()" placeholder="R$"><br/>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="aluguel">Aluguel</label>
-                    <input class="form-control j" id="aluguel" type="text" required="required" data-validation-required-message="Digite o valor do campo Aluguel" placeholder="Aluguel">
-                </div>
-                <div class="form-group">
-                    <label for="telefone"> Telefone</label>
-                    <input class="form-control j" id="telefone" type="text" required="required" data-validation-required-message="Digite o valor do campo Telefone." placeholder="Telefone">
-                </div>
-                <div class="form-group">
-                    <label for="luz">Luz</label>
-                    <input class="form-control j" id="luz" type="text" required="required" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
-                </div>
-                <div class="form-group">
-                    <label for="total">Total</label>
-                    <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
-                </div>
-                <div class="form-group">
-                    <label for="totalCada">Total por Pessoa</label>
-                    <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
-                </div>
-                <div class="control-group">
-                    <label>Mensagem</label>
-                    <h1 id="currentMonth"></h1>
-                </div>
-                
-                <div id="success"></div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Enviar</button>
-                </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="telefone"> Telefone</label>
+                            <input class="form-control j" id="telefone" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Telefone." placeholder="Telefone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="totalJoao">Total João</label>
+                            <input class="form-control j" type="text" name="totalJoao" id="totalJoao" readonly="readonly" placeholder="R$">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="luz">Luz</label>
+                            <input class="form-control j" id="luz" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="costJulio">Gastos Julio</label>
+                            <input class="form-control j" type="text" name="costJulio" id="costJulio" onblur="valorCada()" placeholder="R$"><br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="total">Total</label>
+                            <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="totalJulio">Total Julio</label>
+                            <input class="form-control j" type="text" name="totalJulio" id="totalJulio" readonly="readonly" placeholder="R$">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="totalCada">Total por Pessoa</label>
+                            <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="costMarcos">Gastos Marcos</label>
+                            <input class="form-control j" type="text" name="costMarcos" id="costMarcos" onblur="valorCada()" placeholder="R$"><br/>
+                            <label for="totalMarcos">Total Marcos</label>
+                            <input class="form-control j" type="text" name="totalMarcos" id="totalMarcos" readonly="readonly" placeholder="R$">
+                        </div>
+                    </div>
+                    <!-- <div class="control-group">
+                        <label>Mensagem</label>
+                        <h1 id="currentMonth"></h1>
+                    </div> -->
+<!--                     
+                    <div id="success"></div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Enviar</button>
+                    </div> -->
                 </form>
-            </div>
             </div>
         </div>
     </section>
@@ -65,38 +85,55 @@
         function id(el) {
           return document.getElementById( el );
         }
-        function total( aluguel, telefone, luz ) {
+        
+        function valorTotal() {
+            var result = 0;
+            var aluguel = id('aluguel').value;
+            var telefone = id('telefone').value;
+            var luz = id('luz').value;
             if(aluguel && telefone && luz){
-                return converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(telefone) + converteMoedaParaFloat(luz);
+                result = converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(telefone) + converteMoedaParaFloat(luz);
             }
+            atualizaTotais(result);
         } 
 
         function converteMoedaParaFloat(atributo){
            return parseFloat(atributo.replace('R$', '').replace('.', '').replace(',', '.'))
         }
         function atualizaTotais(result){
-            var payers = JSON.parse('{{residents | tojson}}');
-            
             id('total').value = result;
-            id('totalCada').value = result / payers.length;
+            id('totalCada').value = result / tamanhoPagadores();
         }
+        function valorCada(){
 
-        window.onload = function() {
-          id('aluguel').addEventListener('keyup', function() {
-            var result = total( this.value , id('telefone').value, id('luz').value);
-            atualizaTotais(result)
-          });
-        
-          id('telefone').addEventListener('keyup', function(){
-            var result = total( id('aluguel').value , this.value, id('luz').value);
-            atualizaTotais(result)
-          });
-          id('luz').addEventListener('keyup', function(){
-            var result = total( id('aluguel').value , id('telefone').value, this.value );
-            atualizaTotais(result)
-          });
+            var payers = JSON.parse('{{residents | tojson}}');
+
+            for (i=0; i < tamanhoPagadores(); i++){
+                resident = payers[i].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+                valorIndividual = converteMoedaParaFloat(id('cost'+resident).value) ? (converteMoedaParaFloat(id('cost'+resident).value) / tamanhoPagadores()) : 0.0;
+                custoResident = converteMoedaParaFloat(id('cost'+resident).value) ? converteMoedaParaFloat(id('cost'+resident).value) : 0.0;
+                id('total'+resident).value = Math.round((converteMoedaParaFloat(id('totalCada').value) - custoResident) + valorIndividual + somaCustosOutros(resident));   
+            }
+
         }
-        
+        function somaCustosOutros(resident){
+            var custoJoao = id('costJoao').value ? converteMoedaParaFloat(id('costJoao').value) / tamanhoPagadores() : 0.0;
+            var custoJulio = id('costJulio').value ? converteMoedaParaFloat(id('costJulio').value) / tamanhoPagadores() : 0.0;
+            var custoMarcos = id('costMarcos').value ? converteMoedaParaFloat(id('costMarcos').value) / tamanhoPagadores() : 0.0;
+
+            if( resident == 'Joao'){
+                return custoJulio + custoMarcos;
+            }
+            else if(resident == 'Julio'){
+                return custoJoao + custoMarcos;
+            }
+            else{
+                return custoJoao + custoMarcos;
+            }
+        }
+        function tamanhoPagadores(){
+            return JSON.parse('{{residents | tojson}}').length;
+        }
         
     </script>
 

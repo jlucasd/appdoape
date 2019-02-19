@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -12,28 +13,34 @@ def pagamentos():
 
 @app.route('/contas',methods = ['POST', 'GET'])
 def contas():
-    return render_template('contas.html', residents=getResidents())
+    return render_template('contas.html', residents=getResidents(), currentPayer=getCurrentPayer())
 
 def getPayers():
 
     residents = getResidents()
 
-    return {'Janeiro': residents[1],
-            'Fevereiro': residents[2],
-            'Março': residents[0],
-            'Abril': residents[1],
-            'Maio': residents[2],
-            'Junho': residents[0],
-            'Julho': residents[1],
-            'Agosto': residents[2],
-            'Setembro': residents[0],
-            'Outubro': residents[1],
-            'Novembro': residents[2],
-            'Dezembro': residents[0]
+    return {'Janeiro': residents[0],
+            'Fevereiro': residents[1],
+            'Março': residents[2],
+            'Abril': residents[0],
+            'Maio': residents[1],
+            'Junho': residents[2],
+            'Julho': residents[0],
+            'Agosto': residents[1],
+            'Setembro': residents[2],
+            'Outubro': residents[0],
+            'Novembro': residents[1],
+            'Dezembro': residents[2]
            }
 
+def getCurrentPayer():
+	months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho","Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+	currentMonth = months[(datetime.now().month - 1)]
+	payers = getPayers()
+	return payers[currentMonth]
+
 def getResidents():
-    return ['João' , 'Julio', 'Marcos']
+    return ['Julio', 'Marcos', 'João']
 
 if __name__ == '__main__':
     print("server is runing!!")
