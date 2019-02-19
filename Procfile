@@ -1,1 +1,1 @@
-web: gunicorn app:appdoape
+web: python app.py

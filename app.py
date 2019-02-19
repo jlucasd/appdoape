@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request
 from datetime import datetime
 
@@ -43,5 +44,7 @@ def getResidents():
     return ['Julio', 'Marcos', 'João']
 
 if __name__ == '__main__':
-    print("server is runing!!")
-    app.run(debug=True)
+	port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+    # print("server is runing!!")
+    # app.run(debug=True)
