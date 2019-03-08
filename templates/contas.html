@@ -3,7 +3,7 @@
 {% block content %}
 
     <section id="contas">
-        <div class="container-fluid">
+        <div class="container-fluid" id="contas">
             <h2 class="text-center text-uppercase text-secondary mb-0">Calcular <span id="currentMonth"></span></h2>
             <hr class="star-dark mb-5">
             <div class="col-lg-10 mx-auto">
@@ -67,11 +67,11 @@
                         <label>Mensagem</label>
                         <h1 id="currentMonth"></h1>
                     </div> -->
-<!--                     
+                   
                     <div id="success"></div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Enviar</button>
-                    </div> -->
+                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="geraPDF()">Enviar</button>
+                    </div> 
                 </form>
             </div>
         </div>
@@ -79,6 +79,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+    <script src="./static/js/html2pdf.bundle.min.js"></script>
 
     
     <script type="text/javascript">
@@ -112,7 +113,7 @@
                 resident = payers[i].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
                 valorIndividual = converteMoedaParaFloat(id('cost'+resident).value) ? (converteMoedaParaFloat(id('cost'+resident).value) / tamanhoPagadores()) : 0.0;
                 custoResident = converteMoedaParaFloat(id('cost'+resident).value) ? converteMoedaParaFloat(id('cost'+resident).value) : 0.0;
-                id('total'+resident).value = Math.round((converteMoedaParaFloat(id('totalCada').value) - custoResident) + valorIndividual + somaCustosOutros(resident));   
+                id('total'+resident).value = (converteMoedaParaFloat(id('totalCada').value) - custoResident) + valorIndividual + somaCustosOutros(resident);   
             }
 
         }
@@ -133,6 +134,11 @@
         }
         function tamanhoPagadores(){
             return JSON.parse('{{residents | tojson}}').length;
+        }
+
+        function geraPDF(){
+            var element = document.getElementById('contas');
+            html2pdf(element);
         }
         
     </script>
