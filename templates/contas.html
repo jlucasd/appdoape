@@ -2,9 +2,9 @@
     
 {% block content %}
 
-    <section id="contas">
+    <section id="contasmes">
         <div class="container-fluid" id="contas">
-            <h2 class="text-center text-uppercase text-secondary mb-0">Calcular <span id="currentMonth"></span></h2>
+            <h2 class="text-center text-uppercase text-secondary mb-0">Cálculo <span id="currentMonth"></span></h2>
             <hr class="star-dark mb-5">
             <div class="col-lg-10 mx-auto">
                 <form name="sentMessage" id="payment" method="POST" action="{{ url_for('contas') }}">
@@ -137,7 +137,7 @@
         }
 
         function geraPDF(){
-            var element = document.getElementById('contas');
+            var element = document.getElementById('contasmes');
             html2pdf(element);
         }
         
