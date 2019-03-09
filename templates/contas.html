@@ -6,9 +6,9 @@
         <div class="container-fluid" id="contas">
             <h2 class="text-center text-uppercase text-secondary mb-0">Cálculo <span id="currentMonth"></span></h2>
             <hr class="star-dark mb-5">
-            <div class="col-lg-10 mx-auto">
+            <div class="col-lg-10 mx-auto" id="calculo">
                 <form name="sentMessage" id="payment" method="POST" action="{{ url_for('contas') }}">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" id="pagador">
                         <h4>Pagador Mês : {{currentPayer}}</h4>
                     </div>
                     <div class="row">
@@ -70,7 +70,7 @@
                    
                     <div id="success"></div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton" onclick="geraPDF()">Imprimir</button>
+                        <button type="button" class="btn btn-primary btn-xl" id="imprimir" onclick="geraPDF()">Imprimir</button>
                     </div> 
                 </form>
             </div>
@@ -138,7 +138,17 @@
 
         function geraPDF(){
             var element = document.getElementById('contas');
-            html2pdf(element);
+            console.log(element);
+            var opt = {
+            margin:       1,
+            filename:     'contase.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            
+            html2pdf().set(opt).from(element).save();
         }
         
     </script>
