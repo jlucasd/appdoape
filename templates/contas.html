@@ -33,8 +33,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="luz">Luz</label>
-                            <input class="form-control j" id="luz" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
+                            <label for="internet">internet</label>
+                            <input class="form-control j" id="internet" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo internet."  placeholder="internet">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="costJulio">Gastos Julio</label>
@@ -91,9 +91,9 @@
             var result = 0;
             var aluguel = id('aluguel').value;
             var telefone = id('telefone').value;
-            var luz = id('luz').value;
-            if(aluguel && telefone && luz){
-                result = converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(telefone) + converteMoedaParaFloat(luz);
+            var internet = id('internet').value;
+            if(aluguel && telefone && internet){
+                result = converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(telefone) + converteMoedaParaFloat(internet);
             }
             atualizaTotais(result);
         } 
