@@ -13,21 +13,21 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6"> 
-                            <label for="aluguel">Aluguel</label>
+                            <label for="aluguel">Aluguel : </label>
                             <input class="form-control j" id="aluguel" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Aluguel" placeholder="Aluguel">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="costJoao">Gastos João</label>
-                            <input class="form-control j" type="text" name="costJoao" id="costJoao" onblur="valorCada()" placeholder="R$"><br/>
+                            <label for="custosJoao">Gastos João : </label>
+                            <input class="form-control j" type="text" name="custosJoao" id="custosJoao" onblur="valorCada()" placeholder="R$"><br/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="internet"> Internet</label>
+                            <label for="internet"> Internet : </label>
                             <input class="form-control j" id="internet" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo internet." placeholder="internet">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="totalJoao">Total João</label>
+                            <label for="totalJoao">Total João : </label>
                             <input class="form-control j" type="text" name="totalJoao" id="totalJoao" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
@@ -37,41 +37,37 @@
                             <input class="form-control j" id="luz" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="costJulio">Gastos Julio</label>
-                            <input class="form-control j" type="text" name="costJulio" id="costJulio" onblur="valorCada()" placeholder="R$"><br/>
+                            <label for="custosJulio">Gastos Julio : </label>
+                            <input class="form-control j" type="text" name="custosJulio" id="custosJulio" onblur="valorCada()" placeholder="R$"><br/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="total">Total</label>
+                            <label for="total">Total : </label>
                             <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="totalJulio">Total Julio</label>
+                            <label for="totalJulio">Total Julio : </label>
                             <input class="form-control j" type="text" name="totalJulio" id="totalJulio" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="totalCada">Total por Pessoa</label>
+                            <label for="totalCada">Total por Pessoa : </label>
                             <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="costMarcos">Gastos Marcos</label>
-                            <input class="form-control j" type="text" name="costMarcos" id="costMarcos" onblur="valorCada()" placeholder="R$"><br/>
-                            <label for="totalMarcos">Total Marcos</label>
+                            <label for="custosMarcos">Gastos Marcos : </label>
+                            <input class="form-control j" type="text" name="custosMarcos" id="custosMarcos" onblur="valorCada()" placeholder="R$"><br/>
+                            <label for="totalMarcos">Total Marcos : </label>
                             <input class="form-control j" type="text" name="totalMarcos" id="totalMarcos" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
-                    <!-- <div class="control-group">
-                        <label>Mensagem</label>
-                        <h1 id="currentMonth"></h1>
-                    </div> -->
                    
-                    <div id="success"></div>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary btn-xl" id="imprimir" onclick="geraPDF()">Imprimir</button>
-                    </div> 
+                        <button type="button" class="btn btn-primary btn-xl" id="zap" onclick="mandaWhatsapp()">Mandar via whats</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -86,6 +82,14 @@
         function id(el) {
           return document.getElementById( el );
         }
+		
+		function valorFinalElemento(nome){
+			return id(nome).value ? id(nome).value : 'R$ 0,00';
+		}
+		
+		function valorElementoJquery(nome){
+			return $('#'+nome).text();
+		}
         
         function valorTotal() {
             var result = 0;
@@ -111,16 +115,16 @@
 
             for (i=0; i < tamanhoPagadores(); i++){
                 resident = payers[i].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-                valorIndividual = converteMoedaParaFloat(id('cost'+resident).value) ? (converteMoedaParaFloat(id('cost'+resident).value) / tamanhoPagadores()) : 0.0;
-                custoResident = converteMoedaParaFloat(id('cost'+resident).value) ? converteMoedaParaFloat(id('cost'+resident).value) : 0.0;
+                valorIndividual = converteMoedaParaFloat(id('custos'+resident).value) ? (converteMoedaParaFloat(id('custos'+resident).value) / tamanhoPagadores()) : 0.0;
+                custoResident = converteMoedaParaFloat(id('custos'+resident).value) ? converteMoedaParaFloat(id('custos'+resident).value) : 0.0;
                 id('total'+resident).value = (converteMoedaParaFloat(id('totalCada').value) - custoResident) + valorIndividual + somaCustosOutros(resident);   
             }
 
         }
         function somaCustosOutros(resident){
-            var custoJoao = id('costJoao').value ? converteMoedaParaFloat(id('costJoao').value) / tamanhoPagadores() : 0.0;
-            var custoJulio = id('costJulio').value ? converteMoedaParaFloat(id('costJulio').value) / tamanhoPagadores() : 0.0;
-            var custoMarcos = id('costMarcos').value ? converteMoedaParaFloat(id('costMarcos').value) / tamanhoPagadores() : 0.0;
+            var custoJoao = id('custosJoao').value ? converteMoedaParaFloat(id('custosJoao').value) / tamanhoPagadores() : 0.0;
+            var custoJulio = id('custosJulio').value ? converteMoedaParaFloat(id('custosJulio').value) / tamanhoPagadores() : 0.0;
+            var custoMarcos = id('custosMarcos').value ? converteMoedaParaFloat(id('custosMarcos').value) / tamanhoPagadores() : 0.0;
 
             if( resident == 'Joao'){
                 return custoJulio + custoMarcos;
@@ -137,19 +141,37 @@
         }
 
         function geraPDF(){
-            var element = document.getElementById('contas');
-            console.log(element);
-            var opt = {
+            var contas = document.getElementById('contas');
+            var opcoes = {
             margin:       1,
-            filename:     'contase.pdf',
+            filename:     'contasMes.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2 },
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opcoes).from(contas).save();
         }
+		
+		function mandaWhatsapp(){
+	
+			texto = "https://web.whatsapp.com/send?text="+
+						"Gastos do mês : " 		+	valorElementoJquery('currentMonth')+ 
+						"%0a%0aAluguel : " 		+ 	valorFinalElemento('aluguel') +
+						"%0aInternet : "		+ 	valorFinalElemento('internet') +
+						"%0aLuz : "				+   valorFinalElemento('luz') +
+						"%0aTotal : "			+   valorFinalElemento('total') +
+						"%0a%0aGastos de cada"  +
+						"%0a%0aJulio : "		+ 	valorFinalElemento('custosJulio') +
+						"%0aJoao : "			+	valorFinalElemento('custosJoao')+
+						"%0aMarcos : "			+	valorFinalElemento('custosMarcos')+
+						"%0a%0aTotal de cada"   +
+						"%0a%0aJulio : "		+ 	valorFinalElemento('totalJulio') +
+						"%0aJoao : "			+	valorFinalElemento('totalJoao')+
+						"%0aMarcos : "			+	valorFinalElemento('totalMarcos')
+			window.open(texto, '_blank');
+		}
         
     </script>
 
