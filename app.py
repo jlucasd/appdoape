@@ -16,11 +16,14 @@ def index():
 
 @app.route('/pagamentos')
 def pagamentos():
-    return render_template('pagamentos.html', payers=getPayers(), columns=getColumns(), year=getYear())
+    return render_template('pagamentos.html', payers=getPayers(), columns=getColumns(), year=getCurrentYear())
 
 @app.route('/contas',methods = ['POST', 'GET'])
 def contas():
     return render_template('contas.html', residents=getResidents(), currentPayer=getCurrentPayer())
+
+def getMonths():
+    return ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho","Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
 def getPayers():
 
@@ -43,26 +46,22 @@ def getPayers():
 def getColumns():
     return ["Nº", "Mês", "Pagador"]
 
-def getYear():
-    now = datetime.now()
-    return now.year
+def getCurrentYear():
+    return datetime.now().year
 
 def getCurrentPayer():
-	months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho","Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
-	currentMonth = months[(datetime.now().month - 1)]
-	payers = getPayers()
-	return payers[currentMonth]
+	currentMonth = getMonths()[(datetime.now().month - 1)]
+	return {'payer' : getPayers()[currentMonth], 'month' : currentMonth}
 
 def getResidents():
     return ['Julio', 'Marcos', 'João']
 
 def getUsers():
-    users = {
-        'joaolucas.damiani': 'joao',
-        'julio.h.bitencourt': 'julio',
-        'marcos.rc10': 'marcos'
+    return {
+        'joao': 'joaolucas.damiani',
+        'julio': 'julio.h.bitencourt',
+        'marcos': 'profile.php?id=100002460771942' 
     }
-    return users
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))

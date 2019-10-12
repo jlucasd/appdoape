@@ -2,16 +2,16 @@
     
 {% block content %}
 
-    <section id="contasmes">
+    <section id="contasmes" class="bg-primary">
         <div class="container-fluid" id="contas">
-            <h2 class="text-center text-uppercase text-secondary mb-0">Cálculo <span id="currentMonth"></span></h2>
-            <hr class="star-dark mb-5">
+            <h2 class="text-center text-uppercase text-white mb-0">Cálculo {{currentPayer.month}}</h2>
+            <hr class="star-light mb-5">
             <div class="col-lg-10 mx-auto" id="calculo">
                 <form name="sentMessage" id="payment" method="POST" action="{{ url_for('contas') }}">
-                    <div class="form-group col-md-6" id="pagador">
-                        <h4>Pagador Mês : {{currentPayer}}</h4>
+                    <div class="form-group col-md-6 text-white" id="pagador">
+                        <h4>Pagador Mês : {{currentPayer.payer}}</h4>
                     </div>
-                    <div class="row">
+                    <div class="row text-white">
                         <div class="form-group col-md-6"> 
                             <label for="aluguel">Aluguel : </label>
                             <input class="form-control j" id="aluguel" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Aluguel" placeholder="Aluguel">
@@ -21,7 +21,7 @@
                             <input class="form-control j" type="text" name="custosJoao" id="custosJoao" onblur="valorCada()" placeholder="R$"><br/>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row text-white">
                         <div class="form-group col-md-6">
                             <label for="internet"> Internet : </label>
                             <input class="form-control j" id="internet" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo internet." placeholder="internet">
@@ -31,7 +31,7 @@
                             <input class="form-control j" type="text" name="totalJoao" id="totalJoao" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row text-white">
                         <div class="form-group col-md-6">
                             <label for="luz">Luz</label>
                             <input class="form-control j" id="luz" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo Luz."  placeholder="Luz">
@@ -41,7 +41,7 @@
                             <input class="form-control j" type="text" name="custosJulio" id="custosJulio" onblur="valorCada()" placeholder="R$"><br/>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row text-white">
                         <div class="form-group col-md-6">
                             <label for="total">Total : </label>
                             <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
@@ -51,7 +51,7 @@
                             <input class="form-control j" type="text" name="totalJulio" id="totalJulio" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row text-white">
                         <div class="form-group col-md-6">
                             <label for="totalCada">Total por Pessoa : </label>
                             <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
