@@ -6,11 +6,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    content = {
+        'ape': 'Edifício Donalane - 1102',
+        'titulo' : 'App do Apê',
+        'secao' : 'Moradores'
+    }
+    
+    return render_template('index.html', content=content, users=getUsers())
 
 @app.route('/pagamentos')
 def pagamentos():
-    return render_template('pagamentos.html', payers=getPayers())
+    return render_template('pagamentos.html', payers=getPayers(), columns=getColumns(), year=getYear())
 
 @app.route('/contas',methods = ['POST', 'GET'])
 def contas():
@@ -34,6 +40,13 @@ def getPayers():
             'Dezembro': residents[2]
            }
 
+def getColumns():
+    return ["Nº", "Mês", "Pagador"]
+
+def getYear():
+    now = datetime.now()
+    return now.year
+
 def getCurrentPayer():
 	months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho","Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 	currentMonth = months[(datetime.now().month - 1)]
@@ -42,6 +55,14 @@ def getCurrentPayer():
 
 def getResidents():
     return ['Julio', 'Marcos', 'João']
+
+def getUsers():
+    users = {
+        'joaolucas.damiani': 'joao',
+        'julio.h.bitencourt': 'julio',
+        'marcos.rc10': 'marcos'
+    }
+    return users
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5000))

@@ -4,14 +4,14 @@
     <!-- Pagamentos Section -->
     <section id="pagamentos">
         <div class="container">
-            <h2 class="text-center text-uppercase text-secondary mb-0"><span id="yearPayment"></span></h2>
+            <h2 class="text-center text-uppercase text-secondary mb-0">{{year}}</h2>
             <hr class="star-dark mb-5">
             <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Nº</th>
-                    <th scope="col">Mês</th>
-                    <th scope="col">Pagador</th>
+                    {% for column in columns %}
+                      <th scope="col">{{column}}</th>
+                    {% endfor %}
                   </tr>
                 </thead>
                 <tbody>  
