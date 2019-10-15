@@ -1,18 +1,32 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
+from forms import FormLogin
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    content = {
-        'ape': 'Edifício Donalane - 1102',
-        'titulo' : 'App do Apê',
-        'secao' : 'Moradores'
-    }
-    
-    return render_template('index.html', content=content, users=getUsers())
+    if not session.get('logged_in'):
+        return login()
+    else:
+        content = {
+            'ape': 'Edifício Donalane - 1102',
+            'titulo' : 'App do Apê',
+            'secao' : 'Moradores'
+        }
+        return render_template('index.html', content=content, users=getUsers())
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = FormLogin()
+    if form.validate_on_submit():
+        if((form.user.data == 'apsenai') and (form.password.data == 'apsenai')):
+            session['logged_in'] = True
+            return redirect(url_for('index'))
+    return render_template('login.html', form=form)
 
 @app.route('/pagamentos')
 def pagamentos():
@@ -64,7 +78,8 @@ def getUsers():
     }
 
 if __name__ == '__main__':
-	port = int(os.environ.get("PORT", 5000))
-	app.run(host='0.0.0.0', port=port)
+    app.secret_key = os.urandom(12)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
     # print("server is runing!!")
     # app.run(debug=True)
