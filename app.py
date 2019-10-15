@@ -28,6 +28,11 @@ def login():
             return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    session['logged_in'] = False
+    return index()
+
 @app.route('/pagamentos')
 def pagamentos():
     return render_template('pagamentos.html', payers=getPayers(), columns=getColumns(), year=getCurrentYear())
