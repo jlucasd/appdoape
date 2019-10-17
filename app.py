@@ -3,9 +3,14 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 from forms import FormLogin
 from config import Config
+from database.base import Base
+import sqlite3
+import dotenv
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+base = Base()
 
 @app.route('/')
 def index():
@@ -45,22 +50,7 @@ def getMonths():
     return ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho","Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
 def getPayers():
-
-    residents = getResidents()
-
-    return {'Janeiro': residents[0],
-            'Fevereiro': residents[1],
-            'Março': residents[2],
-            'Abril': residents[0],
-            'Maio': residents[1],
-            'Junho': residents[2],
-            'Julho': residents[0],
-            'Agosto': residents[1],
-            'Setembro': residents[2],
-            'Outubro': residents[0],
-            'Novembro': residents[1],
-            'Dezembro': residents[2]
-           }
+    return base.get_payers()
 
 def getColumns():
     return ["Nº", "Mês", "Pagador"]
@@ -73,7 +63,8 @@ def getCurrentPayer():
 	return {'payer' : getPayers()[currentMonth], 'month' : currentMonth}
 
 def getResidents():
-    return ['Julio', 'Marcos', 'João']
+    usuarios = [user for user in base.get_users()]
+    return usuarios
 
 def getUsers():
     return {
