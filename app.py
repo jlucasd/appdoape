@@ -51,7 +51,7 @@ def contas():
 @app.route('/caixa',methods = ['POST', 'GET'])
 #@login_required
 def caixa():
-    meses = diff_month(datetime(2010,10,1), datetime(2010,9,1))
+    meses = diff_month(datetime(2020,2,1), datetime.now()) + 1
     valor = meses * 20
     return render_template('caixa.html', valor=valor)
 
