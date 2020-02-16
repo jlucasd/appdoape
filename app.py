@@ -89,6 +89,6 @@ def diff_month(d1, d2):
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
     port = int(os.environ.get("PORT", 5000))
-    #app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)
     # print("server is runing!!")
-    app.run(debug=True)
+    #app.run(debug=True)
