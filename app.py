@@ -1,6 +1,5 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_login import login_required
 from datetime import datetime
 from forms import FormLogin
 from config import Config
