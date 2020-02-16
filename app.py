@@ -51,7 +51,7 @@ def contas():
 #@login_required
 def caixa():
     meses = diff_month(datetime(2020,2,1), datetime.now()) + 1
-    valor = meses * 20
+    valor = meses * 60
     return render_template('caixa.html', valor=valor)
 
 def getMonths():
