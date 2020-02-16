@@ -5,7 +5,6 @@ from forms import FormLogin
 from config import Config
 from database.base import Base
 import sqlite3
-from dotenv import load_dotenv 
 
 app = Flask(__name__)
 app.config.from_object(Config)
