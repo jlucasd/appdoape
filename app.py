@@ -52,7 +52,6 @@ def contas():
 def caixa():
     deposito = 20 * len(getResidents())
     meses = diff_month(datetime.now(), datetime(2020,2,1)) + 1
-    print(meses)
     valor = meses * deposito
     return render_template('caixa.html', valor=valor)
 
