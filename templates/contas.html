@@ -23,8 +23,8 @@
                     </div>
                     <div class="row text-white">
                         <div class="form-group col-md-6">
-                            <label for="internet"> Internet : </label>
-                            <input class="form-control j" id="internet" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo internet." placeholder="internet">
+                            <label for="condominio">Condomínio : </label>
+                            <input class="form-control j" id="condominio" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo condomínio." placeholder="condominio">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="totalJoao">Total João : </label>
@@ -43,8 +43,8 @@
                     </div>
                     <div class="row text-white">
                         <div class="form-group col-md-6">
-                            <label for="total">Total : </label>
-                            <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
+                            <label for="internet"> Internet : </label>
+                            <input class="form-control j" id="internet" type="text" required="required" onblur="valorTotal()" data-validation-required-message="Digite o valor do campo internet." placeholder="internet">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="totalJulio">Total Julio : </label>
@@ -53,17 +53,25 @@
                     </div>
                     <div class="row text-white">
                         <div class="form-group col-md-6">
-                            <label for="totalCada">Total por Pessoa : </label>
-                            <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
+                            <label for="total">Total : </label>
+                            <input class="form-control j" type="text" name="total" id="total" readonly="readonly" placeholder="R$">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="custosMarcos">Gastos Marcos : </label>
                             <input class="form-control j" type="text" name="custosMarcos" id="custosMarcos" onblur="valorCada()" placeholder="R$"><br/>
+                        </div>
+                    </div>
+                    <div class="row text-white">
+                        <div class="form-group col-md-6">
+                            <label for="totalCada">Total por Pessoa : </label>
+                            <input class="form-control j" type="text" name="totalCada" id="totalCada" readonly="readonly" placeholder="R$">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="totalMarcos">Total Marcos : </label>
                             <input class="form-control j" type="text" name="totalMarcos" id="totalMarcos" readonly="readonly" placeholder="R$">
                         </div>
                     </div>
-                   
+
                     <div class="form-group">
                         <button type="button" class="btn btn-primary btn-xl" id="imprimir" onclick="geraPDF()">Imprimir</button>
                         <button type="button" class="btn btn-primary btn-xl" id="zap" onclick="mandaWhatsapp()">Mandar via whats</button>
@@ -94,10 +102,11 @@
         function valorTotal() {
             var result = 0;
             var aluguel = id('aluguel').value;
+            var condominio = id('condominio').value;
             var internet = id('internet').value;
             var luz = id('luz').value;
             if(aluguel && internet && luz){
-                result = converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(internet) + converteMoedaParaFloat(luz);
+                result = converteMoedaParaFloat(aluguel) + converteMoedaParaFloat(condominio) + converteMoedaParaFloat(internet) + converteMoedaParaFloat(luz);
             }
             atualizaTotais(result);
         } 
@@ -159,6 +168,7 @@
 			texto = "https://web.whatsapp.com/send?text="+
 						"Gastos do mês : " 		+	valorElementoJquery('currentMonth')+ 
 						"%0a%0aAluguel : " 		+ 	valorFinalElemento('aluguel') +
+                        "%0a%0aCondominio : " 	+ 	valorFinalElemento('condominio') +
 						"%0aInternet : "		+ 	valorFinalElemento('internet') +
 						"%0aLuz : "				+   valorFinalElemento('luz') +
 						"%0aTotal : "			+   valorFinalElemento('total') +
