@@ -1,7 +1,6 @@
 Flask==0.12.0
 Jinja2==2.8.1
 gunicorn==19.6.0
-flask-wtf
 werkzeug==0.16.1
 python-dotenv==0.10.3
 wtforms==2.2.1
