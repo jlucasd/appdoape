@@ -3,3 +3,9 @@ Jinja2==2.8.1
 gunicorn==19.6.0
 flask-wtf
 werkzeug==0.16.1
+python-dotenv==0.10.3
+wtforms==2.2.1
+comtypes==1.1.7
+Flask-Login==0.4.1
+Flask-SQLAlchemy==2.4.1
+Flask-WTF==0.14.2
