@@ -9,11 +9,15 @@ class Base(object):
         conn = self.get_connection()
         conn.execute(
         '''
-        CREATE TABLE IF NOT EXISTS USER 
-        (ID_USER INT PRIMARY KEY NOT NULL,
+        CREATE TABLE IF NOT EXISTS RESIDENT 
+        (ID_RESIDENT INT PRIMARY KEY NOT NULL,
         NAME TEXT NOT NULL);
         '''    
         )
+        conn.execute('''CREATE TABLE IF NOT EXISTS USER 
+        (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	
+        USERNAME VARCHAR(120) NOT NULL,	
+        PASSWORD_HASH VARCHAR(128) NOT NULL)''')	
         conn.execute(
         '''
         CREATE TABLE IF NOT EXISTS PAYMENT
@@ -32,25 +36,25 @@ class Base(object):
         '''
         CREATE TABLE IF NOT EXISTS PAYER(
         ID_MONTH INT NOT NULL, 
-        ID_USER INT NOT NULL,
+        ID_RESIDENT INT NOT NULL,
         FOREIGN KEY(ID_MONTH) REFERENCES MONTH(ID_MONTH),
-        FOREIGN KEY(ID_USER) REFERENCES USER(ID_USER));
+        FOREIGN KEY(ID_RESIDENT) REFERENCES USER(ID_RESIDENT));
         '''
         )
         conn.close()
-        print('TABELAS CRIADAS!!!')
     
-    def insert_tables(self):
-        self.insert_users()
-        self.insert_months()
-        self.insert_payers()
-        self.close_conn()
-
     def insert_users(self):
         conn = self.get_connection()
-        conn.execute("INSERT INTO USER (ID_USER,NAME) VALUES (1, 'João')")
-        conn.execute("INSERT INTO USER (ID_USER,NAME) VALUES (2, 'Júlio')")
-        conn.execute("INSERT INTO USER (ID_USER,NAME) VALUES (3, 'Marcos')")
+        conn.execute("INSERT INTO USER (ID, USERNAME, PASSWORD_HASH)"+ 
+        " VALUES (1, 'apesenai', 'pbkdf2:sha256:150000$rpfH8uqx$0008ce779ff827a842b5292fe28d86b95885cb61e4a6add85a2312ecc881939a')")
+        conn.commit()
+        conn.close()
+
+    def insert_residents(self):
+        conn = self.get_connection()
+        conn.execute("INSERT INTO RESIDENT (ID_RESIDENT,NAME) VALUES (1, 'João')")
+        conn.execute("INSERT INTO RESIDENT (ID_RESIDENT,NAME) VALUES (2, 'Júlio')")
+        conn.execute("INSERT INTO RESIDENT (ID_RESIDENT,NAME) VALUES (3, 'Marcos')")
         conn.commit()
         conn.close()
 
@@ -73,33 +77,43 @@ class Base(object):
 
     def insert_payers(self):
         conn = self.get_connection()
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (1, 2)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (2, 3)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (3, 1)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (4, 2)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (5, 3)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (6, 1)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (7, 2)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (8, 3)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (9, 1)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (10, 2)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (11, 3)")
-        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_USER) VALUES (12, 1)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (1, 2)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (2, 3)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (3, 1)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (4, 2)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (5, 3)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (6, 1)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (7, 2)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (8, 3)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (9, 1)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (10, 2)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (11, 3)")
+        conn.execute("INSERT INTO PAYER (ID_MONTH,ID_RESIDENT) VALUES (12, 1)")
         conn.commit()
         conn.close()
 
-    def get_users(self):
+    def get_residents(self):
         conn = self.get_connection()
-        sql = "SELECT name FROM USER"
-        users = conn.execute(sql).fetchall()
-        return [user[0] for user in users]
+        sql = "SELECT name FROM RESIDENT"
+        residents = conn.execute(sql).fetchall()
+        return [resident[0] for resident in residents]
 
     def get_payers(self):
         conn = self.get_connection()
-        sql = "SELECT MONTH.MONTH, USER.NAME FROM PAYER JOIN USER USING (ID_USER) JOIN MONTH USING (ID_MONTH)"
+        sql = "SELECT MONTH.MONTH, RESIDENT.NAME FROM PAYER JOIN RESIDENT USING (ID_RESIDENT) JOIN MONTH USING (ID_MONTH)"
         payers = conn.execute(sql).fetchall()
         return {payer[0]:payer[1] for payer in payers}
 
 
     def close_conn(self):
         self.get_connection().close()
+    
+    def create_database(self):
+        self.create_tables()
+        print('TABELAS CRIADAS!!!')
+        self.insert_users()
+        self.insert_residents()
+        self.insert_months()
+        self.insert_payers()
+        print('REGISTROS INSERIDOS!!!')
+        self.close_conn()
