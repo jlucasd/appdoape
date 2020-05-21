@@ -1,9 +1,35 @@
 {% extends "layout.html"%}    
-    
-{% block content %}    
+
+    {% block content %}    
 
     <!-- Header -->
     <header class="masthead bg-primary text-white text-center">
+      <div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+  
+        {% if form is defined %}
+            {% with form_errors = form.errors %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                            {% for error in field_errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+                  
+    </div>
       <div class="container">
         <img class="img-fluid mb-5 d-block mx-auto" src="./static/img/ape.png" alt="">
         <h1 class="text-uppercase mb-0">{{content.titulo}}</h1>

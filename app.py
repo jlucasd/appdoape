@@ -30,24 +30,16 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-#    form = FormLogin()
-#    if form.validate_on_submit():
-#        flash('Bem vindo {}!'.format(form.user.data))
-#        if((form.user.data == 'apesenai') and (form.password.data == 'apesenai')):
-#            session['logged_in'] = True
-#            return redirect(url_for('index'))
-#    return render_template('login.html', form=form)
     if current_user.is_authenticated:
             return redirect(url_for('index'))
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.user.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Usuário ou senha inválidos')
-            print('Usuário ou senha inválidos')
+            flash('Usuário ou senha inválidos!', 'danger')
             return redirect(url_for('login'))
-        #login_user(user, remember=form.remember_me.data)
         login_user(user, remember=True)
+        flash('Bem vindo {}!'.format(current_user.username), 'success')
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
